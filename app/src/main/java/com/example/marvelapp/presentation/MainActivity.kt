@@ -2,7 +2,7 @@ package com.example.marvelapp.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.marvelapp.R
+import com.example.marvelapp.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
