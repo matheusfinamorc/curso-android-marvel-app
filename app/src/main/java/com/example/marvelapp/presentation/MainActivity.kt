@@ -1,12 +1,12 @@
 package com.example.marvelapp.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import com.example.marvelapp.*
+import androidx.navigation.ui.setupWithNavController
+import com.example.marvelapp.R
 import com.example.marvelapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -22,8 +22,24 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_container) as NavHostFragment
 
         navController = navHostFragment.navController
+
+        binding.bottomNavMain.setupWithNavController(navController)
+
         appBarConfiguration = AppBarConfiguration(
-            setOf()
+            // define os fragments iniciais
+            setOf(R.id.charactersFragment, R.id.favoritesFragment, R.id.aboutFragment)
         )
+
+        binding.toolbarApp.setupWithNavController(navController, appBarConfiguration)
+        // destination pega o fragment que esta atualmente
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+            // verifica se e o primeiro no nav graph
+            // declarados no appBarConfiguration
+            val isTopLevelDestination = appBarConfiguration.topLevelDestinations.contains(destination.id)
+            // se nao for, coloca o icone de voltar para ir ao primeiro
+            if(!isTopLevelDestination){
+                binding.toolbarApp.setNavigationIcon(R.drawable.ic_back)
+            }
+        }
     }
 }
